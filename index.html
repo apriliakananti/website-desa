@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desa Kersik - Kabupaten Kutai Kartanegara</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2a6b3c;
+            --secondary: #e9b949;
+            --accent: #d35400;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            background: linear-gradient(135deg, var(--primary), #1e5631);
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--secondary);
+            transition: var(--transition);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo:hover {
+            transform: rotate(10deg) scale(1.05);
+        }
+
+        .li {
+            font-size: 1.2rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        .links li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .links li a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .links li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--secondary);
+            transition: var(--transition);
+        }
+
+        .links li a:hover::after {
+            width: 100%;
+        }
+
+        .hero {
+            position: relative;
+            height: 80vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                        url('makan.jpeg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 0 20px;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .action-buttons {
+            position: fixed;
+            right: 30px;
+            bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .kunjungan, .pengaduan {
+            padding: 15px 20px;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 120px;
+            height: 120px;
+            font-size: 0.9rem;
+        }
+
+        .kunjungan {
+            background: linear-gradient(135deg, var(--primary), #1e5631);
+            color: white;
+        }
+
+        .pengaduan {
+            background: linear-gradient(135deg, var(--accent), #b84300);
+            color: white;
+        }
+
+        .kunjungan:hover, .pengaduan:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .content-section {
+            padding: 80px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .section-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+            font-size: 2.2rem;
+            color: var(--primary);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--secondary);
+            border-radius: 2px;
+        }
+
+        .profil-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .profil-img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+
+        .profil-img:hover {
+            transform: scale(1.02);
+        }
+
+        .profil-text h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .profil-text p {
+            margin-bottom: 15px;
+        }
+
+        .berita-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .berita-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .berita-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .berita-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .berita-card:hover .berita-img {
+            transform: scale(1.05);
+        }
+
+        .berita-content {
+            padding: 20px;
+        }
+
+        .berita-date {
+            color: var(--accent);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .berita-content h3 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+        }
+
+        .galeri-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .galeri-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+            height: 250px;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .galeri-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .galeri-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .galeri-item:hover .galeri-img {
+            transform: scale(1.1);
+        }
+
+        .galeri-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+            color: white;
+            padding: 20px;
+            transform: translateY(100%);
+            transition: var(--transition);
+        }
+
+        .galeri-item:hover .galeri-overlay {
+            transform: translateY(0);
+        }
+
+        .kontak-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .kontak-info {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .kontak-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .kontak-icon {
+            background: var(--primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .kontak-text h4 {
+            margin-bottom: 5px;
+            color: var(--primary);
+        }
+
+        .map-container {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateX(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 300px;
+            border: none;
+        }
+
+        footer {
+            background: linear-gradient(135deg, var(--dark), #23272b);
+            color: white;
+            padding: 50px 5% 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background-color: var(--secondary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary);
+            padding-left: 5px;
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .links {
+                gap: 15px;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .profil-container, .kontak-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                padding: 15px;
+            }
+            
+            .logo-container {
+                margin-bottom: 15px;
+            }
+            
+            .links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .action-buttons {
+                right: 15px;
+                bottom: 15px;
+            }
+            
+            .kunjungan, .pengaduan {
+                width: 100px;
+                height: 100px;
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .galeri-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <div class="logo-container">
+                <img src="logo desa kersik.png" class="logo" alt="Logo Desa Kersik">
+                <div class="li"><strong>Desa Kersik<br>Kabupaten Kutai Kartanegara</strong></div>
+            </div>
+            <ul class="links">
+                <li><a href="#beranda">Beranda</a></li>
+                <li><a href="#profil">Profil Desa</a></li>
+                <li><a href="#berita">Berita</a></li>
+                <li><a href="#galeri">Galeri</a></li>
+                <li><a href="#kontak">Kontak</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <section id="beranda">
+        <div class="hero">
+            <div class="hero-content">
+                <h1>Makkela Kela, Pererat hubungan antar warga</h1>
+                <p>"Makkela Kela" adalah sebuah tradisi makan bersama yang dilakukan oleh 
+                    masyarakat Desa Kersik. Acara ini merupakan bentuk perayaan kebersamaan dan 
+                    mempererat tali silaturahmi antar warga.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="profil" class="content-section">
+        <h2 class="section-title">Profil Desa</h2>
+        <div class="profil-container">
+            <div>
+                <img src="foto profil.jpg" alt="Desa Kersik" class="profil-img">
+            </div>
+            <div class="profil-text">
+                <h3>Sejarah Desa Kersik</h3>
+                <p>Desa Kersik merupakan salah satu desa yang terletak di Kabupaten Kutai Kartanegara, Kalimantan Timur. Desa ini memiliki sejarah panjang yang terkait dengan budaya dan tradisi masyarakat setempat.</p>
+                <p>Nama "Kersik" berasal dari bahasa lokal yang berarti pasir, merujuk pada kondisi geografis daerah ini di masa lalu. Desa Kersik telah mengalami perkembangan pesat dalam beberapa dekade terakhir, namun tetap mempertahankan nilai-nilai budaya dan kearifan lokal.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="berita" class="content-section">
+        <h2 class="section-title">Berita</h2>
+        <div class="berita-grid">
+            <div class="berita-card">
+                <img src="pemerintah desa.jpg" alt="Pelatihan Keterampilan" class="berita-img">
+                <div class="berita-content">
+                    <div class="berita-date">24 Juni 2022</div>
+                    <h3>Pelatihan keterampilan pembuatan produk dan kemasan amplang</h3>
+                    <p>Pemerintah Desa Kersik gelar pelatihan keterampilan pembuatan produk dan kemasan amplang yang dilaksanakan di Pantai Biru, Desa Kersik, Kecamatan Marang Kayu Kabupaten Kutai Kartanegara....</p>
+                </div>
+            </div>
+            <div class="berita-card">
+                <img src="menerima penghargaan.jpg" alt="Makkela Kela" class="berita-img">
+                <div class="berita-content">
+                    <div class="berita-date">15 Agustus 2022</div>
+                    <h3>Desa Kersik menerima penghargaan sertifikat proklim utama </h3>
+                    <p>Kersik. Kementerian Lingkungan Hidup dan Kehutanan (KLHK) memberikan penghargaan Sertifikat kepada desa Kersik sebagai pelaksana Program Kampung Iklim (ProKlim) kategori Utama tahun 2022....</p>
+                </div>
+            </div>
+            <div class="berita-card">
+                <img src="penanaman mangrove.jpg" alt="Pelatihan Kerajinan" class="berita-img">
+                <div class="berita-content">
+                    <div class="berita-date">09 Oktober 2022</div>
+                    <h3>Program penanaman Mangrove dan Cemara udang di pantai biru</h3>
+                    <p>Program penanaman mangrove dan cemara udang di Pantai Biru Desa Kersik tahun 2022 merupakan kerja sama Pemerintah Desa Kersik dan Pertamina Hulu Kalimantan Timur (PHKT) dengan dukungan berbagai pihak untuk melestarikan lingkungan pesisir....</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="galeri" class="content-section">
+        <h2 class="section-title">Galeri Desa</h2>
+        <div class="galeri-grid">
+            <div class="galeri-item">
+                <img src="galeri 1.jpg" alt="Pemandangan Desa" class="galeri-img">
+                <div class="galeri-overlay">
+                    <h4>Penutupan HUT RI</h4>
+                </div>
+            </div>
+            <div class="galeri-item">
+                <img src="galeri 2.jpg" class="galeri-img">
+                <div class="galeri-overlay">
+                    <h4>Musyawarah Desa</h4>
+                </div>
+            </div>
+            <div class="galeri-item">
+                <img src="galeri 3.jpg" alt="Tradisi Makkela Kela" class="galeri-img">
+                <div class="galeri-overlay">
+                    <h4>Pertunjukan Tari Tradisional</h4>
+                </div>
+            </div>
+            <div class="galeri-item">
+                <img src="galeri 4.jpg" alt="Kesenian Tradisional" class="galeri-img">
+                <div class="galeri-overlay">
+                    <h4>Penutupan Tahunan Iklim</h4>
+                </div>
+            </div>
+             <div class="galeri-item">
+                <img src="galeri 5.jpg" alt="Kesenian Tradisional" class="galeri-img">
+                <div class="galeri-overlay">
+                    <h4>Raih Juara 1 Karnaval</h4>
+                </div>
+            </div>
+             <div class="galeri-item">
+                <img src="galeri 6.jpg" alt="Kesenian Tradisional" class="galeri-img">
+                <div class="galeri-overlay">
+                    <h4>Perlombaan Kekompakan</h4>
+                </div>
+            </div>
+             <div class="galeri-item">
+                <img src="galeri 7.jpg" alt="Kesenian Tradisional" class="galeri-img">
+                <div class="galeri-overlay">
+                    <h4>Musrenbang Desa</h4>
+                </div>
+            </div>
+             <div class="galeri-item">
+                <img src="galeri 8.jpg" alt="Kesenian Tradisional" class="galeri-img">
+                <div class="galeri-overlay">
+                    <h4>Bahas Makanan Tambahan</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="kontak" class="content-section">
+        <h2 class="section-title">Kontak Kami</h2>
+        <div class="kontak-container">
+            <div class="kontak-info">
+                <div class="kontak-item">
+                    <div class="kontak-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="kontak-text">
+                        <h4>Alamat</h4>
+                        <p>Jl. Desa Kersik, Kecamatan Tenggarong Seberang, Kabupaten Kutai Kartanegara, Kalimantan Timur</p>
+                    </div>
+                </div>
+                <div class="kontak-item">
+                    <div class="kontak-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div class="kontak-text">
+                        <h4>Kontak</h4>
+                        <p>082150208664</p>
+                    </div>
+                </div>
+                <div class="kontak-item">
+                    <div class="kontak-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="kontak-text">
+                        <h4>Email</h4>
+                        <p>kersik.marangkayu@kukarkab.go.id</p>
+                    </div>
+                </div>
+                <div class="kontak-item">
+                    <div class="kontak-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="kontak-text">
+                        <h4>Jam Operasional</h4>
+                        <p>Senin - Kamis: 08.00 - 15.00</p>
+                        <p>Jum'at: 08.00 - 11.00</p>
+                    </div>
+                </div>
+            </div>
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127672.13020386004!2d116.94745504999999!3d-0.42648159999999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2df6753e13f8b85f%3A0x3048f70c9f50d0b9!2sKutai%20Kartanegara%20Regency%2C%20East%20Kalimantan!5e0!3m2!1sen!2sid!4v1697461751624!5m2!1sen!2sid" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Desa Kersik</h3>
+                <p>Desa Kersik adalah salah satu desa di Kabupaten Kutai Kartanegara yang kaya akan budaya dan tradisi. Kami berkomitmen untuk melestarikan warisan budaya sambil terus berkembang menuju kemajuan.</p>
+            </div>
+            <div class="footer-column">
+                <h3>Menu Cepat</h3>
+                <ul class="footer-links">
+                    <li><a href="#beranda">Beranda</a></li>
+                    <li><a href="#profil">Profil Desa</a></li>
+                    <li><a href="#berita">Berita/Pengumuman</a></li>
+                    <li><a href="#galeri">Galeri Desa</a></li>
+                    <li><a href="#kontak">Kontak</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+  <h3>Media Sosial</h3>
+  <ul class="footer-links">
+    <li><a href="https://facebook.com/kersikdesa.id" target="_blank"><i class="fab fa-facebook"></i> Facebook</a></li>
+    <li><a href="https://instagram.com/kersik.desa.id" target="_blank"><i class="fab fa-instagram"></i> Instagram</a></li>
+    <li><a href="https://youtube.com/@desakersik" target="_blank"><i class="fab fa-youtube"></i> YouTube</a></li>
+    <li><a href="https://tiktok.com/@kersik.desa.id" target="_blank"><i class="fab fa-tiktok"></i> TikTok</a></li>
+  </ul>
+</div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2023 Desa Kersik, Kabupaten Kutai Kartanegara. Semua Hak Dilindungi.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    if (entry.target.classList.contains('content-section')) {
+                        entry.target.classList.add('section-visible');
+                    }
+                    
+                    if (entry.target.classList.contains('berita-card')) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, 200);
+                    }
+                    
+                    if (entry.target.classList.contains('galeri-item')) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, 200);
+                    }
+                    
+                    if (entry.target.classList.contains('kontak-item')) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateX(0)';
+                        }, 200);
+                    }
+                    
+                    if (entry.target.classList.contains('map-container')) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateX(0)';
+                        }, 400);
+                    }
+                }
+            });
+        }, observerOptions);
+        document.querySelectorAll('.content-section').forEach(section => {
+            observer.observe(section);
+        });
+
+        document.querySelectorAll('.berita-card').forEach((card, index) => {
+            card.style.transition = `opacity 0.5s ease ${index * 0.2}s, transform 0.5s ease ${index * 0.2}s`;
+            observer.observe(card);
+        });
+
+        document.querySelectorAll('.galeri-item').forEach((item, index) => {
+            item.style.transition = `opacity 0.5s ease ${index * 0.1}s, transform 0.5s ease ${index * 0.1}s`;
+            observer.observe(item);
+        });
+
+        document.querySelectorAll('.kontak-item').forEach((item, index) => {
+            item.style.transition = `opacity 0.5s ease ${index * 0.2}s, transform 0.5s ease ${index * 0.2}s`;
+            observer.observe(item);
+        });
+
+        document.querySelectorAll('.map-container').forEach(container => {
+            container.style.transition = 'opacity 0.8s ease 0.6s, transform 0.8s ease 0.6s';
+            observer.observe(container);
+        });
+
+        document.querySelectorAll('.kunjungan, .pengaduan').forEach(button => {
+            button.addEventListener('click', function() {
+                if (this.classList.contains('kunjungan')) {
+                    alert('Terima kasih atas kunjungan Anda hari ini!');
+                } else {
+                    alert('Terima kasih, pengaduan Anda telah direkam.');
+                }
+            });
+        });
+
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.container');
+            if (window.scrollY > 100) {
+                header.style.background = 'var(--primary)';
+                header.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
+            } else {
+                header.style.background = 'linear-gradient(135deg, var(--primary), #1e5631)';
+                header.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
+            }
+        });
+    </script>
+</body>
+</html>
